@@ -30,30 +30,30 @@
  * Array -> O(n) // in worst-case
  */
 
-export interface CacheItem<T> {
-  data: T[];
+export interface CacheItem {
+  data: [];
   nQueried: number;
 }
 
-class LRU<T> {
+class LRU {
   private readonly maxSize: number;
-  private cache: Map<string, CacheItem<T>>;
+  private cache: Map<string, CacheItem>;
   constructor(maxSize: number) {
     this.maxSize = maxSize;
-    this.cache = new Map<string, CacheItem<T>>();
+    this.cache = new Map<string, CacheItem>();
   }
 
-  set(fileId: string, data: T[]): void {
+  set(fileId: string, data: []): void {
     if (this.cache.size >= this.maxSize) {
       this.delete();
     }
     this.cache.set(fileId, { nQueried: 1, data });
   }
 
-  get(fileId: string): T[] | null {
+  get(fileId: string): {}[] | null {
     const item = this.cache.get(fileId);
     if (item) {
-      const updatedItem: CacheItem<T> = {
+      const updatedItem: CacheItem= {
         data: item.data,
         nQueried: item.nQueried + 1,
       };

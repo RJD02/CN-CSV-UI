@@ -20,12 +20,13 @@ const loadFileIntoCache = (fileId: string) =>
       .on("error", reject);
   });
 
-export const getFileData = async <T,>(
+export const getFileData = async (
   page: number,
   perPage: number,
   fileId: string
-): Promise<T[]> => {
-  const fileData:T[] | null = fileCache.get(fileId);
+): Promise<{}[]> => {
+    console.log(fileCache);
+  const fileData = fileCache.get(fileId);
   if (fileData) {
     const startRow = (page - 1) * perPage;
     const endRow = startRow + perPage;
