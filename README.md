@@ -1,7 +1,6 @@
 # A CSV Interface
 
 ## Caching Algorithm
-The caching algorith is implemented so that, we don't have to fetch the files again and again(as it will incur more cost of opening and reading the files). We can assume that the csv file uploaded can contain rows of magnitude 10^5. So if user is requesting the file to be read
 We can assume that the csv file uplaoded can contain rows of magnitude 10^5. If user is requesting the file frequently, then on each request we have to fetch the data from the file(in server). For now, I have not implemented authentication to maintain uniqueness for the files of each user separately, i.e. files of all the users are stored at the same place.
 
 The question also contained extra points for building a pagination, which will require us to fetch a specified amount of data(e.g. 100 rows) at a time. Combine it with the frequent requests and large file buffer, and the server will have a large toll for memory as well as time.
