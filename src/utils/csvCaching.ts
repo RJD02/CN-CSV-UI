@@ -32,6 +32,7 @@ export const getFileData = async (
     const endRow = startRow + perPage;
     return fileData.slice(startRow, Math.min(endRow, fileData.length));
   }
+
   await loadFileIntoCache(fileId);
   return getFileData(page, perPage, fileId);
 };
