@@ -1,6 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   const dropZone = document.getElementById("dropZone");
   const fileList = document.getElementById("fileList");
+  const modal = document.querySelector(".modal");
+  const modalCloseBtn = document.querySelector(".modal button");
+  const modalText = document.querySelector(".modal .modal-text");
+  const modalHeading = document.querySelector(".modal .modal-heading");
 
   // Prevent default behavior for drag events
   dropZone.addEventListener("dragenter", (e) => {
@@ -31,26 +35,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function handleFiles(files) {
     const csvFiles = Array.from(files).filter(
-      (file) => file.type === "text/csv"
+      (file) =>
+        file.type === "text/csv" || file.type === "application/vnd.ms-excel"
     );
     console.log(csvFiles);
 
     if (csvFiles.length > 0) {
-      displayFileContents(csvFiles);
       sendFiles(csvFiles);
     } else {
-      alert("Please drop or select only CSV files.");
+      openModal();
+      modalHeading.textContent = "Wrong file";
+      modalText.textContent = "Pease upload only CSV files";
     }
   }
 
   async function sendFiles(files) {
     files.forEach(async (file) => {
-      const response = await fetch("/upload", {
+      const body = new FormData();
+      body.append("csvFile", file);
+      const response = await fetch("/files/upload", {
         method: "POST",
-        body: { csvFile: file },
+        body: body,
       });
-      console.log(response.status);
-      const data = await response.json();
+        console.log(response);
+      if (response.status === 200) {
+        openModal();
+        modalHeading.textContent = "Successful";
+        modalText.textContent = "Successfully uploaded the file";
+      } else {
+        openModal();
+        modalHeading.textContent = "Unsuccessful";
+        modalText.textContent = "Please ensure you're uploading csv file";
+      }
     });
   }
 
@@ -69,5 +85,18 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       reader.readAsText(file);
     });
+  }
+
+  modalCloseBtn.addEventListener("click", () => {
+    closeModal();
+  });
+
+  function openModal() {
+    modal.classList.remove("invisible");
+  }
+
+  function closeModal() {
+    window.location.reload();
+    modal.classList.add("invisible");
   }
 });

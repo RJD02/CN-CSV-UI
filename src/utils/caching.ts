@@ -50,6 +50,12 @@ class Cache {
     this.cache.set(fileId, { nQueried: 1, data });
   }
 
+  getQueried(fileId: string): number {
+      const item = this.cache.get(fileId);
+      if(item) return item.nQueried;
+      return 0;
+  }
+
   get(fileId: string): {}[] | null {
     const item = this.cache.get(fileId);
     if (item) {

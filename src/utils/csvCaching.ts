@@ -6,13 +6,18 @@ const MAX_FILE_CACHE = 10;
 
 const fileCache = new Cache(MAX_FILE_CACHE);
 
-const loadFileIntoCache = (fileId: string) =>
+export const getFileId  = (fileName: string) => {
+    return fileName.split('-')[0];
+}
+
+const loadFileIntoCache = (fileName: string) =>
   new Promise<void>((resolve, reject) => {
     const results: any = [];
-    fs.createReadStream(fileId)
+    fs.createReadStream(fileName)
       .pipe(csv())
       .on("data", (data) => results.push(data))
       .on("end", () => {
+          const fileId = getFileId(fileName);
         fileCache.set(fileId, results);
         return results;
       })
@@ -36,3 +41,15 @@ export const getFileData = async (
   await loadFileIntoCache(fileId);
   return getFileData(page, perPage, fileId);
 };
+
+export const getTimesQueriedFiles = (files: string[]) => {
+    return files.map(file => {
+        return {
+            file,
+            queried: fileCache.getQueried(file)
+        }
+    });
+}
+export const getTimesQueriedFile = (file: string) => {
+    return fileCache.getQueried(file);
+}

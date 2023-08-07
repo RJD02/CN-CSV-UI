@@ -4,6 +4,7 @@ import path from "path";
 import { getFileData } from "./utils/csvCaching";
 import homeRouter from "./routes/home.route";
 import cors from "cors";
+import fileRouter from "./routes/files.route";
 
 const app = express();
 const PORT = 3000;
@@ -30,6 +31,7 @@ const getData = async () => {
 getData();
 
 app.use("/", homeRouter);
+app.use("/files", fileRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.render("index", { title: "Home" });

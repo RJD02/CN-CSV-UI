@@ -1,13 +1,54 @@
 <%- contentFor('styles') %>
-<%- contentFor('body') %>
-<div class="container">
-<h1 class="text-xl">Welcome Back</h1>
-<div class="form-wrapper">
-<form action="/upload" class="flex flex-col" method="post" enctype="multipart/form-data">
-    <label for="csvFile">Enter a csv file</label>
-    <input type="file" name="csvFile" />
-    <button>Submit</button>
-</form>
-</div></div>
-<%- contentFor('script') %>
-<script src="/js/home.js"></script>
+    <%- contentFor('body') %>
+        <div class="container mx-auto">
+            <h1 class="text-4xl font-semibold text-center">Upload or open a file</h1>
+            <div class="flex justify-between items-center px-2   w-full  mt-10" >
+                <h4 class="text-2xl font-normal">Your files</h4>
+                <div class="w-fit bg-blue-200 flex items-center p-2 drop-zone cursor-pointer" id="dropZone">
+                    <i class="fa-solid fa-upload m-1"></i>
+                    <p class="text-md font-md">Upload</p>
+                </div>
+            </div>
+            <div class="file-list mt-10 " id="fileList">
+                <!-- File names will be listed here -->
+                    <% for(var i = 0; i < files.length; i++)  { %>
+                    <div id="<%= files[i].fileId %>-file"  class="file p-4 my-3 hover:bg-zinc-300 cursor-pointer border rounded-md border-b-black border-solid flex justify-between items-center ">
+                    <p><%= files[i].name  %></p>
+                    <div class="details flex justify-between items-center">
+                        <p class="pr-4">Queried: <%= files[0].queried %></p>
+                        <i id="<%= files[i].fileId%>-delete-btn pr-2"  class="fa-solid fa-trash"></i>
+                    </div>
+                    </div>
+
+
+                    <% } %>
+            </div>
+            <div class="modal invisible fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+                <div class="modal-content relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                    <div class="mt-3 text-center">
+                        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                            <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-2 px-7 py-3">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900 modal-heading"></h3>
+                        <p class="text-sm text-gray-500 modal-text">
+                        </p>
+                    </div>
+                    <div class="items-center px-4 py-3">
+                        <button id="ok-btn"
+                            class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                            OK
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+        <%- contentFor('script') %>
+            <script src="/js/home.js"></script>
