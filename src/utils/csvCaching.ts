@@ -1,10 +1,10 @@
-import LRU, { CacheItem } from "./LRU";
+import Cache, { CacheItem } from "./caching";
 import csv from "csv-parser";
 import fs from "fs";
 
 const MAX_FILE_CACHE = 10;
 
-const fileCache = new LRU(MAX_FILE_CACHE);
+const fileCache = new Cache(MAX_FILE_CACHE);
 
 const loadFileIntoCache = (fileId: string) =>
   new Promise<void>((resolve, reject) => {

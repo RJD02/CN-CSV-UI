@@ -1,0 +1,13 @@
+<%- contentFor('styles') %>
+<%- contentFor('body') %>
+<div class="container">
+<h1 class="text-xl">Welcome Back</h1>
+<div class="form-wrapper">
+<form action="/upload" class="flex flex-col" method="post" enctype="multipart/form-data">
+    <label for="csvFile">Enter a csv file</label>
+    <input type="file" name="csvFile" />
+    <button>Submit</button>
+</form>
+</div></div>
+<%- contentFor('script') %>
+<script src="/js/home.js"></script>

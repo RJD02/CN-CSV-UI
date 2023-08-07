@@ -35,7 +35,7 @@ export interface CacheItem {
   nQueried: number;
 }
 
-class LRU {
+class Cache {
   private readonly maxSize: number;
   private cache: Map<string, CacheItem>;
   constructor(maxSize: number) {
@@ -81,4 +81,4 @@ class LRU {
   }
 }
 
-export default LRU;
+export default Cache;
