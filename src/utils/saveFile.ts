@@ -46,7 +46,7 @@ const fileFilter = (
 
 export const upload = multer({ storage, fileFilter });
 
-export const extractFileDetails = (file: string) => {
+export const extractFileDetails = (file: string): IDataFileDetails => {
   const fileSplitArr = file.split("-");
   const name = fileSplitArr.length > 1 ? fileSplitArr.slice(2).join("-") : file;
   const queried = getTimesQueriedFile(file);
@@ -59,11 +59,20 @@ export const extractFileDetails = (file: string) => {
     queried,
     fileId,
     createdAt,
+    fileName: file
   };
 };
 
+export interface IDataFileDetails {
+    name: string,
+    queried: number,
+    fileId: string,
+    createdAt: string,
+    fileName: string,
+}
+
 export const numFilesInsideData = () =>
-  new Promise<{ name: String; queried: number }[]>((resolve, reject) => {
+  new Promise<IDataFileDetails[]>((resolve, reject) => {
     fs.readdir("./data", (err, files) => {
       if (err) reject(err);
       const fileNames = files.map(extractFileDetails);

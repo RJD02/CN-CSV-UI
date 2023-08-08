@@ -9,9 +9,14 @@ export const uploadFile = async (req: Request, res: Response) => {
 };
 export const deleteFileHandler = async (req: Request, res: Response) => {
     const fileId = req.params.id;
+    try {
     const deleteData = await deleteCSVFile(fileId);
     if(deleteData.success) {
         return res.status(200).json({message: "successfully deleted the file"});
     }
     return res.status(400).json({message: deleteData.error});
+    } catch(e) {
+        console.log(e);
+        return res.status(500).json({message: "Something went wrong"});
+    }
 }
