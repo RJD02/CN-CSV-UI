@@ -6,9 +6,9 @@ const MAX_FILE_CACHE = 10;
 
 const fileCache = new Cache(MAX_FILE_CACHE);
 
-export const getFileId  = (fileName: string) => {
-    return fileName.split('-')[0];
-}
+export const getFileId = (fileName: string) => {
+  return fileName.split("-")[0];
+};
 
 const loadFileIntoCache = (fileName: string) =>
   new Promise<void>((resolve, reject) => {
@@ -17,7 +17,7 @@ const loadFileIntoCache = (fileName: string) =>
       .pipe(csv())
       .on("data", (data) => results.push(data))
       .on("end", () => {
-          const fileId = getFileId(fileName);
+        const fileId = getFileId(fileName);
         fileCache.set(fileId, results);
         return results;
       })
@@ -30,7 +30,7 @@ export const getFileData = async (
   perPage: number,
   fileId: string
 ): Promise<{}[]> => {
-    console.log(fileCache);
+  console.log(fileCache);
   const fileData = fileCache.get(fileId);
   if (fileData) {
     const startRow = (page - 1) * perPage;
@@ -43,13 +43,22 @@ export const getFileData = async (
 };
 
 export const getTimesQueriedFiles = (files: string[]) => {
-    return files.map(file => {
-        return {
-            file,
-            queried: fileCache.getQueried(file)
-        }
-    });
-}
+  return files.map((file) => {
+    return {
+      file,
+      queried: fileCache.getQueried(file),
+    };
+  });
+};
+
+export const printFileCache = () => {
+  console.log(fileCache);
+};
+
 export const getTimesQueriedFile = (file: string) => {
-    return fileCache.getQueried(file);
-}
+  return fileCache.getQueried(file);
+};
+
+export const removeFileFromCache = (fileId: string) => {
+  fileCache.delete(fileId);
+};
