@@ -23,15 +23,8 @@ app.use(
 
 app.use(express.static(path.join(__dirname, "public")));
 
-const getData = async () => {
-  const data = await getFileData(1, 3, "./data/sample.csv");
-  console.log(data);
-};
-
-getData();
-
-app.use("/", homeRouter);
 app.use("/files", fileRouter);
+app.use("/", homeRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.render("index", { title: "Home" });
