@@ -56,16 +56,22 @@ class Cache {
       return 0;
   }
 
+  increaseQuery(fileId: string): void {
+      const item = this.cache.get(fileId);
+      if(item) {
+          const updatedItem: CacheItem = {
+              data: item.data,
+              nQueried: item.nQueried + 1,
+          };
+          this.cache.delete(fileId);
+          this.cache.set(fileId, updatedItem);
+      };
+  }
+
   get(fileId: string): {}[] | null {
     const item = this.cache.get(fileId);
     if (item) {
-      const updatedItem: CacheItem= {
-        data: item.data,
-        nQueried: item.nQueried + 1,
-      };
-      this.cache.delete(fileId);
-      this.cache.set(fileId, updatedItem);
-      return updatedItem.data;
+      return item.data;
     }
     return null;
   }

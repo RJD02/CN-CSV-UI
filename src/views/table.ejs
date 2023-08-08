@@ -1,0 +1,25 @@
+<%- contentFor('styles') %>
+<%- contentFor('body') %>
+
+<div class="container mx-auto ">
+    <% if(headers.length > 0 && data.length > 0) { %>
+<table class="table-auto w-full  border border-blue-200">
+    <tr>
+        <% for(var i in headers) { %>
+        <th class="border border-slate-600"><%= headers[i] %></th>
+        <% } %>
+    </tr>
+    <tbody>
+        <% data.forEach(function(obj) { %>
+        <tr>
+        <% Object.keys(obj).forEach(function(val, key) { %>
+        <td class="text-center border border-slate-700"><%= obj[val] %></td>
+        <% }) %>
+</tr>
+        <% }) %>
+    </tbody>
+</table>
+<% } %>
+</div>
+<%- contentFor('script') %>
+<script src="/js/table.js"></script>

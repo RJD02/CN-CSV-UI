@@ -5,31 +5,40 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalCloseBtn = document.querySelector(".modal button");
   const modalText = document.querySelector(".modal .modal-text");
   const modalHeading = document.querySelector(".modal .modal-heading");
-    const trashBtns = document.querySelectorAll('.file .fa-trash');
+  const trashBtns = document.querySelectorAll(".file .fa-trash");
+  const fileDivs = document.querySelectorAll(".file");
 
-    const sendDeleteFileRequest = async (fileId) => {
-        console.log('Sending delete request for', fileId);
-        const response = await fetch('/files/' + fileId, {
-            method: 'DELETE',
-        });
-        if(response.status === 200) {
-            openModal();
-            modalHeading.textContent = "Success";
-            modalText.textContent = "Successfully deleted the file";
-        } else {
-            openModal();
-            modalHeading.textContent = "Failure";
-            modalText.textContent = "Could not delete the file, please try again";
-        }
+  fileDivs.forEach((div) =>
+    div.addEventListener("click", () => {
+      window.location.assign("/table/" + div.id);
+    })
+  );
+
+  const sendDeleteFileRequest = async (fileId) => {
+    console.log("Sending delete request for", fileId);
+    const response = await fetch("/files/" + fileId, {
+      method: "DELETE",
+    });
+    if (response.status === 200) {
+      openModal();
+      modalHeading.textContent = "Success";
+      modalText.textContent = "Successfully deleted the file";
+    } else {
+      openModal();
+      modalHeading.textContent = "Failure";
+      modalText.textContent = "Could not delete the file, please try again";
     }
+  };
 
-
-
-    // add event listener on all the trash btns
-    trashBtns.forEach(btn => btn.addEventListener('click', () => {
-        const fileId = btn.id.split('-')[0];
-        sendDeleteFileRequest(fileId);
-    }))
+  // add event listener on all the trash btns
+  trashBtns.forEach((btn) =>
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      const fileId = btn.id.split("-")[0];
+      sendDeleteFileRequest(fileId);
+    })
+  );
 
   // Prevent default behavior for drag events
   dropZone.addEventListener("dragenter", (e) => {
@@ -82,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         method: "POST",
         body: body,
       });
-        console.log(response);
+      console.log(response);
       if (response.status === 200) {
         openModal();
         modalHeading.textContent = "Successful";

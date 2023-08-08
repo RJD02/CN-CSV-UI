@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import { numFilesInsideData } from "../utils/saveFile";
-import { printFileCache } from "../utils/csvCaching";
+import { numFilesInsideData, printFileCache } from "../utils/csvCaching";
 
 export const getHome = async (req: Request, res: Response) => {
   printFileCache();

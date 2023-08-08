@@ -1,9 +1,9 @@
 import express, { Request, Response } from "express";
 import expressLayouts from "express-ejs-layouts";
 import path from "path";
-import { getFileData } from "./utils/csvCaching";
 import homeRouter from "./routes/home.route";
 import cors from "cors";
+import tableRouter from "./routes/table.route";
 import fileRouter from "./routes/files.route";
 
 const app = express();
@@ -23,6 +23,7 @@ app.use(
 
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use('/table', tableRouter);
 app.use("/files", fileRouter);
 app.use("/", homeRouter);
 

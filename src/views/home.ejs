@@ -12,11 +12,12 @@
             <div class="file-list mt-10 " id="fileList">
                 <!-- File names will be listed here -->
                     <% for(var i = 0; i < files.length; i++)  { %>
-                    <div id="<%= files[i].fileId %>-file"  class="file p-4 my-3 hover:bg-zinc-300 cursor-pointer border rounded-md border-b-black border-solid flex justify-between items-center ">
+                    <div id="<%= files[i].fileId %>"  class="file p-4 my-3 hover:bg-zinc-300 group cursor-pointer border rounded-md border-b-black border-solid flex justify-between items-center ">
                     <p><%= files[i].name  %></p>
                     <div class="details flex justify-between items-center">
                         <p class="font-semibold mr-5">Created at: <%= files[i].createdAt %></p>
-                        <i id="<%= files[i].fileId%>-delete-btn"  class="fa-solid fa-trash"></i>
+                        <p>Queried: <%= files[i].queried %></p>
+                        <i id="<%= files[i].fileId%>-delete-btn"  class="p-3 fa-solid  rounded-lg fa-trash z-10 hover:bg-gray-400"></i>
                     </div>
                     </div>
 
