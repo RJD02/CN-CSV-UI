@@ -3,7 +3,53 @@ const searchInput = document.querySelector("#search-input");
 const perPageSelection = document.querySelector("#per-page");
 const previousPageBtn = document.querySelector(".pagination-left-icon ");
 const nextPageBtn = document.querySelector(".pagination-right-icon ");
-const totalPages = document.querySelector(".remaining-pages").textContent
+const totalPages = document.querySelector(".remaining-pages").textContent;
+const columns = document.querySelectorAll(".col-name");
+
+const cmp = (a, b, asc) => {
+  if (parseFloat(a) && parseFloat(b)) {
+    const valA = parseFloat(a);
+    const valB = parseFloat(b);
+    if (asc) return valA === valB ? 0 : valA < valB ? -1 : 1;
+    return valA === valB ? 0 : valB < valA ? -1 : 1;
+  }
+  if (asc) return a === b ? 0 : a < b ? -1 : 1;
+  return a === b ? 0 : b < a ? -1 : 1;
+};
+const sortBy = (col, isAscending) => {
+  const rows = table.rows.length;
+  const cols = table.rows[0].cells.length;
+
+  if (isAscending === 1) {
+    tableData.sort((a, b) => cmp(a[col], b[col], 1));
+  } else {
+    tableData.sort((a, b) => cmp(a[col], b[col], 0));
+  }
+  console.log(tableData);
+  for (let ro = 1; ro < rows; ro++) {
+    for (let co = 0; co < cols; co++) {
+      table.rows[ro].cells[co].textContent =
+        tableData[ro - 1][table.rows[0].cells[co].textContent];
+    }
+  }
+};
+
+columns.forEach((col) => {
+  let cPrev = "mixed";
+  if (!table) return;
+  col.addEventListener("click", () => {
+    if (cPrev === "mixed") {
+      sortBy(col.textContent, 1);
+      cPrev = "ascending";
+    } else if (cPrev === "ascending") {
+      sortBy(col.textContent, 0);
+      cPrev = "descending";
+    } else if (cPrev === "descending") {
+      sortBy(col.textContent, 1);
+      cPrev = "ascending";
+    }
+  });
+});
 
 perPageSelection.addEventListener("change", () => {
   const perPage = perPageSelection.value;
@@ -25,20 +71,20 @@ searchInput.addEventListener("input", (e) => {
 previousPageBtn.addEventListener("click", () => {
   const perPage = urlParams.get("perPage") || 100;
   const page = parseInt(urlParams.get("page")) || 1;
-    if(page === 1) return;
+  if (page === 1) return;
   const destURL = new URL(window.location.href);
   destURL.searchParams.set("perPage", perPage);
   destURL.searchParams.set("page", page - 1);
-    if(!table) {
-        destURL.searchParams.set('page', totalPages)
-    }
+  if (!table) {
+    destURL.searchParams.set("page", totalPages);
+  }
   window.location.assign(destURL);
 });
 
 nextPageBtn.addEventListener("click", () => {
   const perPage = parseInt(urlParams.get("perPage")) || 100;
   const page = parseInt(urlParams.get("page")) || 1;
-    if(page >= parseInt(totalPages) || parseInt(totalPages) === -1) return;
+  if (page >= parseInt(totalPages) || parseInt(totalPages) === -1) return;
   const destURL = new URL(window.location.href);
   destURL.searchParams.set("perPage", perPage);
   destURL.searchParams.set("page", page + 1);

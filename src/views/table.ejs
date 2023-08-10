@@ -23,7 +23,7 @@
 <table class="table-auto w-full  border border-blue-200 mt-10">
     <tr>
         <% for(var i in headers) { %>
-        <th class="border border-slate-600"><%= headers[i] %></th>
+        <th class="border border-slate-600 col-name" id="col-<%= i %>"><%= headers[i] %></th>
         <% } %>
     </tr>
     <tbody>
