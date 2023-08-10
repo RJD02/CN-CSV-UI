@@ -2,12 +2,22 @@
 <%- contentFor('body') %>
 
 <div class="container mx-auto ">
-    <section class="search mt-5">
+
+    <section class="search mt-5 flex items-center justify-between">
         <div class="input-wrapper flex flex-col w-fit">
             <label for="search-input">Search</label>
             <input type="text" name="" id="search-input" placeholder="Search in columns" class="bg-transparent border border-solid border-black rounded-sm text-black focus:outline-neutral-300">
         </div>
-        <button class="input-reset-btn">Reset</button>
+        <div class="set-per-page flex items-center justify-center">
+            <label for="per-page" class="mr-2">Data per page</label>
+            <select name="per-page" id="per-page" class="bg-slate-200" value=<%= perPage %>>
+                <option value="100" >100</option>
+                <option value="150" >150</option>
+                <option value="200" >200</option>
+                <option value="250" >250</option>
+                <option value="300" >300</option>
+            </select>
+        </div>
     </section>
     <% if(headers.length > 0 && data.length > 0) { %>
 <table class="table-auto w-full  border border-blue-200 mt-10">
@@ -27,6 +37,19 @@
     </tbody>
 </table>
 <% } %>
+
+<div class="pagination flex justify-center items-center my-5">
+    <div class="pagination-left-icon mr-2 cursor-pointer p-3 bg-slate-300">
+        <i class="fa-solid fa-caret-left fa-2xl"></i>
+    </div>
+    <div class="pagination-curr-page mr-2">
+        <span><%= page %> / <span class="remaining-pages"><%= remainingPages %></span></span>
+    </div>
+    <div class="pagination-right-icon cursor-pointer p-3 bg-slate-300">
+        <i class="fa-solid fa-caret-right fa-2xl"></i>
+    </div>
+</div>
+
 </div>
 <%- contentFor('script') %>
 <script src="/js/table.js"></script>

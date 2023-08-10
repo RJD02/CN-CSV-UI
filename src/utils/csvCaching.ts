@@ -19,7 +19,7 @@ export interface PromiseResult {
 export const extractFileDetails = (file: string): IDataFileDetails => {
   const fileSplitArr = file.split("-");
   const name = fileSplitArr.length > 1 ? fileSplitArr.slice(2).join("-") : file;
-  const queried = getTimesQueriedFile(file.split('-')[0]);
+  const queried = getTimesQueriedFile(file.split("-")[0]);
   const fileId = getFileId(file);
   const fileCreatedDate = fileSplitArr[1].split(",");
   const createdAt = fileCreatedDate.join("-");
@@ -62,11 +62,10 @@ const getFileNameFromId = async (fileId: string) => {
   return null;
 };
 
-
 const loadFileIntoCache = (fileId: string) =>
   new Promise<PromiseResult>(async (resolve, reject) => {
     try {
-        console.log('Loading ', fileId, 'into cache');
+      console.log("Loading ", fileId, "into cache");
       const results: any = [];
       const fileName = await getFileNameFromId(fileId);
       if (!fileName) throw Error("File not found");
@@ -84,25 +83,32 @@ const loadFileIntoCache = (fileId: string) =>
     }
   });
 
+interface FileDataReturn {
+  total: number;
+  data: {}[];
+}
 
 export const getFileData = async (
   page: number,
   perPage: number,
   fileId: string
-): Promise<{}[]> => {
+): Promise<FileDataReturn> => {
   try {
     const fileData = fileCache.get(fileId);
     if (fileData) {
       const startRow = (page - 1) * perPage;
       const endRow = startRow + perPage;
-      return fileData.slice(startRow, Math.min(endRow, fileData.length));
+      return {
+        data: fileData.slice(startRow, Math.min(endRow, fileData.length)),
+        total: fileData.length,
+      };
     }
     const response = await loadFileIntoCache(fileId);
     if (response.success) return await getFileData(page, perPage, fileId);
   } catch (e) {
     console.log(e);
   }
-  return [];
+  return { data: [], total: 0 };
 };
 
 export const getTimesQueriedFiles = (files: string[]) => {
@@ -126,5 +132,5 @@ export const removeFileFromCache = (fileId: string) => {
   fileCache.delete(fileId);
 };
 export const updateNQueriedOnRequest = (fileId: string) => {
-    fileCache.increaseQuery(fileId);
-}
+  fileCache.increaseQuery(fileId);
+};

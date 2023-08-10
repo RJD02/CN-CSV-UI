@@ -5,13 +5,15 @@ export const getTableController = async (req: Request, res: Response) => {
   try {
     const fileId = req.params.id;
     const page = Number(req.query.page) || 1;
-    const perPage = Number(req.query.perpage) || 100;
+    const perPage = Number(req.query.perPage) || 100;
    updateNQueriedOnRequest(fileId);
 
     const fileData = await getFileData(page, perPage, fileId);
-    if(fileData.length <= 0) return res.redirect('/');
-    const headers = Object.keys(fileData[0]);
-    return res.render("table", { data: fileData, title: "File Detail", headers });
+    const remainingPages = Math.round( fileData.total / perPage)
+    if(fileData.data.length === 0) return res.render("table", {data: [], title: "Out of bounds", headers: [], page: -1, remainingPages, perPage});
+    const headers = Object.keys(fileData.data[0]);
+
+    return res.render("table", { data: fileData.data, title: "File Detail", headers, page, remainingPages, perPage});
 
   } catch (e) {
     console.log(e);
