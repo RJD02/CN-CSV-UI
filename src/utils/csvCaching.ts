@@ -22,7 +22,6 @@ export const extractFileDetails = (file: string): IDataFileDetails => {
   const queried = getTimesQueriedFile(file.split('-')[0]);
   const fileId = getFileId(file);
   const fileCreatedDate = fileSplitArr[1].split(",");
-  console.log("created at: ", fileCreatedDate, fileSplitArr[1]);
   const createdAt = fileCreatedDate.join("-");
   return {
     name,
@@ -67,6 +66,7 @@ const getFileNameFromId = async (fileId: string) => {
 const loadFileIntoCache = (fileId: string) =>
   new Promise<PromiseResult>(async (resolve, reject) => {
     try {
+        console.log('Loading ', fileId, 'into cache');
       const results: any = [];
       const fileName = await getFileNameFromId(fileId);
       if (!fileName) throw Error("File not found");

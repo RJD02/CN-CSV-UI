@@ -2,8 +2,15 @@
 <%- contentFor('body') %>
 
 <div class="container mx-auto ">
+    <section class="search mt-5">
+        <div class="input-wrapper flex flex-col w-fit">
+            <label for="search-input">Search</label>
+            <input type="text" name="" id="search-input" placeholder="Search in columns" class="bg-transparent border border-solid border-black rounded-sm text-black focus:outline-neutral-300">
+        </div>
+        <button class="input-reset-btn">Reset</button>
+    </section>
     <% if(headers.length > 0 && data.length > 0) { %>
-<table class="table-auto w-full  border border-blue-200">
+<table class="table-auto w-full  border border-blue-200 mt-10">
     <tr>
         <% for(var i in headers) { %>
         <th class="border border-slate-600"><%= headers[i] %></th>

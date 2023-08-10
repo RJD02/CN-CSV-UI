@@ -9,10 +9,8 @@ export const getTableController = async (req: Request, res: Response) => {
    updateNQueriedOnRequest(fileId);
 
     const fileData = await getFileData(page, perPage, fileId);
-    console.log(fileData);
     if(fileData.length <= 0) return res.redirect('/');
     const headers = Object.keys(fileData[0]);
-    console.log('headers', headers);
     return res.render("table", { data: fileData, title: "File Detail", headers });
 
   } catch (e) {
@@ -20,3 +18,5 @@ export const getTableController = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+

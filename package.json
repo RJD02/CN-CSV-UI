@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./dist/app.js",
-    "build": "tsc",
+    "build": "rm -rf dist && tsc && rm -rf dist/public && cp -r src/public dist/public && rm -rf dist/views && cp -r src/views dist/views",
     "dev": "nodemon ./src/app.ts"
   },
   "keywords": [],
