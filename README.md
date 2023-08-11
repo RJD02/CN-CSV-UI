@@ -1,4 +1,21 @@
 # A CSV Interface
+A CSV UI app, which parses and displayes the data inside a csv file
+
+## Key Features:
+1. Scaleable folder structure (separate controller and routes)
+2. No database used(even createdAt field is done through file naming logic)
+3. Caching system implemented
+4. Client and server side check for being able to upload only csv type of files
+5. Sorting button on each column available
+6. Pagination of data displayed in the table available
+
+## Tech stack:
+* Nodejs(TypeScript)
+* Express
+* EJS
+* CSS(TailwindCSS)
+* EJS
+* Multer
 
 ## Caching Algorithm
 We can assume that the csv file uplaoded can contain rows of magnitude 10^5. If user is requesting the file frequently, then on each request we have to fetch the data from the file(in server). For now, I have not implemented authentication to maintain uniqueness for the files of each user separately, i.e. files of all the users are stored at the same place.
@@ -22,4 +39,23 @@ Map takes O(1). Array takes O(1)
 
 We can also go for a min heap construction, which will help reduce the searching time of least queried entry by O(1). But it will require a complex construct. Our main concern was to, cache the most used files and not fetch them fresh everytime user requests. Our caching system could include(could increase with number of servers), for e.g. 100 files. Sifting through 100 entries will not cost much, espcially when on every iteration we have O(1) calculation. This is bearable.
 
-The complete implementation can be found in (./util
+The complete implementation can be found in utils/caching.ts
+
+## Installation
+Clone this repository inside your machine by running
+```bash
+git clone https://github.com/RJD02/CN-CSV-UI.git
+```
+Then install all dependencies by doing
+```bash
+npm install
+```
+Then compile a new dist folder by running
+```bash
+npm run build
+```
+Then, we can start the server by running
+```bash
+npm start
+```
+
