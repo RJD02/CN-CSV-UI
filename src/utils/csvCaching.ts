@@ -16,7 +16,7 @@ export interface PromiseResult {
   message: string;
   data?: any;
 }
-export const extractFileDetails = (file: string): IDataFileDetails => {
+export const extractFileDetails = (file: string): DataFileDetails => {
   const fileSplitArr = file.split("-");
   const name = fileSplitArr.length > 1 ? fileSplitArr.slice(2).join("-") : file;
   const queried = getTimesQueriedFile(file.split("-")[0]);
@@ -32,7 +32,7 @@ export const extractFileDetails = (file: string): IDataFileDetails => {
   };
 };
 
-export interface IDataFileDetails {
+export interface DataFileDetails {
   name: string;
   queried: number;
   fileId: string;
@@ -41,7 +41,7 @@ export interface IDataFileDetails {
 }
 
 export const numFilesInsideData = () =>
-  new Promise<IDataFileDetails[]>((resolve, reject) => {
+  new Promise<DataFileDetails[]>((resolve, reject) => {
     fs.readdir("./data", (err, files) => {
       if (err) reject(err);
       const fileNames = files.map(extractFileDetails);
@@ -109,15 +109,6 @@ export const getFileData = async (
     console.log(e);
   }
   return { data: [], total: 0 };
-};
-
-export const getTimesQueriedFiles = (files: string[]) => {
-  return files.map((file) => {
-    return {
-      file,
-      queried: fileCache.getQueried(file),
-    };
-  });
 };
 
 export const printFileCache = () => {

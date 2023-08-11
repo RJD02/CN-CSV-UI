@@ -6,6 +6,15 @@ const nextPageBtn = document.querySelector(".pagination-right-icon ");
 const totalPages = document.querySelector(".remaining-pages").textContent;
 const columns = document.querySelectorAll(".col-name");
 
+let currCol = -1;
+let prevCol = -1;
+let prevSortIcon;
+let prevAscendingSortIcon;
+let prevDescendingSortIcon;
+let currSortIcon;
+let currAscendingSortIcon;
+let currDescendingSortIcon;
+
 const cmp = (a, b, asc) => {
   if (parseFloat(a) && parseFloat(b)) {
     const valA = parseFloat(a);
@@ -38,15 +47,38 @@ columns.forEach((col) => {
   let cPrev = "mixed";
   if (!table) return;
   col.addEventListener("click", () => {
+    prevCol = currCol;
+    prevSortIcon = currSortIcon;
+    prevAscendingSortIcon = currAscendingSortIcon;
+    prevDescendingSortIcon = currDescendingSortIcon;
+    const id = col.id.split("-")[1];
+    currCol = id;
+    if (prevCol != currCol) {
+      if (prevCol != -1) {
+        cPrev = "mixed";
+        prevSortIcon.classList.remove("hidden");
+        prevAscendingSortIcon.classList.add("hidden");
+        prevDescendingSortIcon.classList.add("hidden");
+      }
+    }
+    currSortIcon = document.querySelector(".fa-sort-" + currCol);
+    currAscendingSortIcon = document.querySelector(".fa-sort-down-" + currCol);
+    currDescendingSortIcon = document.querySelector(".fa-sort-up-" + currCol);
     if (cPrev === "mixed") {
       sortBy(col.textContent, 1);
       cPrev = "ascending";
+      currSortIcon.classList.add("hidden");
+      currAscendingSortIcon.classList.remove("hidden");
     } else if (cPrev === "ascending") {
       sortBy(col.textContent, 0);
       cPrev = "descending";
+      currAscendingSortIcon.classList.add("hidden");
+      currDescendingSortIcon.classList.remove("hidden");
     } else if (cPrev === "descending") {
       sortBy(col.textContent, 1);
       cPrev = "ascending";
+      currDescendingSortIcon.classList.add("hidden");
+      currAscendingSortIcon.classList.remove("hidden");
     }
   });
 });

@@ -23,14 +23,24 @@
 <table class="table-auto w-full  border border-blue-200 mt-10">
     <tr>
         <% for(var i in headers) { %>
-        <th class="border border-slate-600 col-name" id="col-<%= i %>"><%= headers[i] %></th>
+        <th class="border border-slate-600 col-name " id="col-<%= i %>">
+            <div class="flex justify-center items-center">
+                <p class="inline mr-2 text-lg">
+                <%= headers[i].slice(0,1).toUpperCase() %><%= headers[i].substring(1) %>
+                </p>
+                <i class="fa-solid fa-sort fa-sort-<%= i %> fa-xl"></i>
+                <i class="fa-solid fa-sort-down fa-xl fa-sort-down-<%= i %> hidden "></i>
+                <i class="fa-solid fa-sort-up fa-xl fa-sort-up-<%= i %> hidden"></i>
+
+            </div>
+        </th>
         <% } %>
     </tr>
     <tbody>
         <% data.forEach(function(obj) { %>
         <tr>
         <% Object.keys(obj).forEach(function(val, key) { %>
-        <td class="text-center border border-slate-700"><%= obj[val] %></td>
+        <td class="text-center border border-slate-700"><%= obj[val].slice(0,1).toUpperCase() %><%= obj[val].substring(1) %></td>
         <% }) %>
 </tr>
         <% }) %>
