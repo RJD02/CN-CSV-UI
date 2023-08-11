@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import expressLayouts from "express-ejs-layouts";
 import path from "path";
 import homeRouter from "./routes/home.route";
@@ -26,13 +26,5 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use('/table', tableRouter);
 app.use("/files", fileRouter);
 app.use("/", homeRouter);
-
-app.get("/", (req: Request, res: Response) => {
-  res.render("index", { title: "Home" });
-});
-
-app.get("/about", (req, res) => {
-  res.render("about", { title: "About Us" });
-});
 
 app.listen(PORT, () => console.log("Server running on port:", PORT));

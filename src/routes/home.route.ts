@@ -3,6 +3,7 @@ import { getHome, } from '../controllers/home.controller';
 
 const homeRouter = express.Router();
 
+// get home page
 homeRouter.get('/', getHome);
 
 

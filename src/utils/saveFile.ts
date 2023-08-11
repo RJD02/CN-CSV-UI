@@ -24,6 +24,7 @@ const storage = multer.diskStorage({
   },
 });
 
+// fileFilter declares the filter for multer
 const fileFilter = (
   req: Request,
   file: Express.Multer.File,
@@ -38,7 +39,7 @@ const fileFilter = (
   } else {
     // reject the file if it's not a csv
     console.log(file.mimetype);
-    cb(new Error("Only CSV files are allowed"));
+    cb(null, false);
   }
 };
 

@@ -43,6 +43,7 @@ class Cache {
     this.cache = new Map<string, CacheItem>();
   }
 
+  // set adds the file and file data into cache
   set(fileId: string, data: []): void {
     if (this.cache.size >= this.maxSize) {
       this.delete();
@@ -50,12 +51,14 @@ class Cache {
     this.cache.set(fileId, { nQueried: 1, data });
   }
 
+  // getQueried returns the number of times this file is queried
   getQueried(fileId: string): number {
       const item = this.cache.get(fileId);
       if(item) return item.nQueried;
       return 0;
   }
 
+  // increaseQuery increases the number of times this file is queried
   increaseQuery(fileId: string): void {
       const item = this.cache.get(fileId);
       if(item) {
@@ -68,6 +71,7 @@ class Cache {
       };
   }
 
+  // get returns the data field of file with id fileId
   get(fileId: string): {}[] | null {
     const item = this.cache.get(fileId);
     if (item) {
@@ -76,6 +80,7 @@ class Cache {
     return null;
   }
 
+  // delete removes the file with fileId. If fileId not specified, it removes the least queried cacheItem
   delete(fileId = "") {
     if (fileId === "") {
       let minQueries = Number.MAX_SAFE_INTEGER;

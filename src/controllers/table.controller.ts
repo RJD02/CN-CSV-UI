@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { getFileData, updateNQueriedOnRequest } from "../utils/csvCaching";
 
+// getTableController renders the table with data populated
 export const getTableController = async (req: Request, res: Response) => {
   try {
     const fileId = req.params.id;

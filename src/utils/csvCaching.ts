@@ -1,12 +1,13 @@
-import Cache, { CacheItem } from "./caching";
+import Cache  from "./caching";
 import csv from "csv-parser";
 import fs from "fs";
-import path from "path";
 
+// this declares the size of cache
 const MAX_FILE_CACHE = 10;
 
 const fileCache = new Cache(MAX_FILE_CACHE);
 
+// getFileId returns the id field in the name of file
 export const getFileId = (fileName: string) => {
   return fileName.split("-")[0];
 };
@@ -16,6 +17,8 @@ export interface PromiseResult {
   message: string;
   data?: any;
 }
+
+// extractFileDetails returns the promise of type DataFileDetails from fileName
 export const extractFileDetails = (file: string): DataFileDetails => {
   const fileSplitArr = file.split("-");
   const name = fileSplitArr.length > 1 ? fileSplitArr.slice(2).join("-") : file;
@@ -40,6 +43,7 @@ export interface DataFileDetails {
   fileName: string;
 }
 
+// numFilesInsideData returns a promise of type DataFileDetails
 export const numFilesInsideData = () =>
   new Promise<DataFileDetails[]>((resolve, reject) => {
     fs.readdir("./data", (err, files) => {
@@ -49,6 +53,7 @@ export const numFilesInsideData = () =>
     });
   });
 
+  // getFileNameFromId returns the filename of the file with id fileId
 const getFileNameFromId = async (fileId: string) => {
   try {
     const files = await numFilesInsideData();
@@ -62,6 +67,7 @@ const getFileNameFromId = async (fileId: string) => {
   return null;
 };
 
+// loadFileIntoCache loads the file with id: fileId into the cache
 const loadFileIntoCache = (fileId: string) =>
   new Promise<PromiseResult>(async (resolve, reject) => {
     try {
@@ -88,6 +94,7 @@ interface FileDataReturn {
   data: {}[];
 }
 
+// getFileData returns the FileDataReturn type of promise.
 export const getFileData = async (
   page: number,
   perPage: number,
@@ -111,17 +118,22 @@ export const getFileData = async (
   return { data: [], total: 0 };
 };
 
+// printFileCache logs the current fileCache object
 export const printFileCache = () => {
   console.log(fileCache);
 };
 
+// getTimesQeriedFile returns the getQueried method value on the fileCache
 export const getTimesQueriedFile = (file: string) => {
   return fileCache.getQueried(file);
 };
 
+// removeFileFromCache calls the delete method on the fileCache
 export const removeFileFromCache = (fileId: string) => {
   fileCache.delete(fileId);
 };
+
+// updateNQueriedOnRequest calls the increaseQuery method on the fileCache
 export const updateNQueriedOnRequest = (fileId: string) => {
   fileCache.increaseQuery(fileId);
 };
